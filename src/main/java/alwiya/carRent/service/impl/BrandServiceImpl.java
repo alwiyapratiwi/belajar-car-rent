@@ -7,7 +7,9 @@ import alwiya.carRent.utils.SearchBrandRequest;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,11 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Brand getOne(Integer id) {
-        return brandRepository.findById(id).orElse(null);
+        try {
+            return brandRepository.findById(id).orElseThrow(Throwable::new);
+        } catch (Throwable e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override

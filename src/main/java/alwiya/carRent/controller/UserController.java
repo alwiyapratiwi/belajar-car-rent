@@ -40,13 +40,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getOne(@PathVariable Integer id) {
-        return userService.getOne(id);
+    public ResponseEntity<?> getOne(@PathVariable Integer id) {
+        return Res.renderJson(
+                userService.getOne(id),
+                HttpStatus.OK,
+                "Successfully get a user with id " + id
+        );
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Integer id, @RequestBody User request) {
-        return userService.update(id, request);
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody User request) {
+        return Res.renderJson(
+                userService.update(id, request),
+                HttpStatus.OK,
+                "Successfully updated user"
+        );
     }
 
     @DeleteMapping("/{id}")
